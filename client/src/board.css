@@ -1,0 +1,53 @@
+.gameTitle {
+  display: flex;
+  height: 15%;
+}
+.gameTitle1 {
+  padding: auto;
+  margin: auto;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.gameTitle2 {
+  padding: auto;
+  margin: auto;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .gameTitle1 h1 {
+  display:inline;
+  float:left; 
+}
+.gameTitle2 h1 {
+  display:inline;
+  float:right; 
+} */
+
+.gameTitle1 img {
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 40%;
+}
+
+.gameTitle2 img {
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 40%;
+}
+
+#cy {
+  height: 85%;
+  width: 100%;
+  left: 0;
+  top: 15%;
+  float: left;
+  /* background: #303030; */
+  position: absolute;
+}
