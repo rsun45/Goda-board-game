@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import './App.css';
+import p1Img from './img/p1-blue.png';
+import p2Img from './img/p2-red.png' 
 
 
-
-function sayHello() {
-  alert('You clicked me!');
-}
 
 function HomePage() {
 
@@ -20,16 +19,32 @@ function HomePage() {
   // }, []);
 
   return (
-    <div>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: "column",
+    }}>
 
-      <Link to="/">
-        <button >Player VS Player</button>
+      <div style={{
+        display: 'flex',
+        padding: "20px",
+      }}>
+        <img className="titleLeftImg" src={p1Img}/>
+        <h1>GODA BOARD GAME</h1>
+        <img className="titleRightImg" src={p2Img}/>
+      </div>
+
+      <Link to="/BoardSetup/PVP">
+        <button className="homepageStyle">Player VS Player</button>
       </Link>
-      <Link to="/VSAI">
-        <button>Player VS AI</button>
+      <br />
+      <Link to="/BoardSetup/PVAI">
+        <button className="homepageStyle">Player VS AI</button>
       </Link>
-      <Link to="/about">
-        <button >Game Instruction</button>
+      <br />
+      <Link to="/About">
+        <button className="homepageStyle">Game Instruction</button>
       </Link>
 
     </div>

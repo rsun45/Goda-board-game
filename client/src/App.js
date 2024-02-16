@@ -4,14 +4,12 @@ import React from "react";
 import { Link, Routes, Route, Navigate  } from 'react-router-dom';
 import Cy_example from './CyExample';
 import HomePage from './HomePage';
+import About from './About';
+import BoardSetup from './BoardSetup';
 
-function sayHello() {
-  alert('You clicked me!');
-}
 
 
 const Home = () => <h1>Home</h1>;
-const About = () => <h1>About</h1>;
 
 function App() {
 
@@ -30,8 +28,9 @@ function App() {
 
       <Routes>
         <Route path="/"  element={<HomePage />} />
-        <Route path="/VSAI"  element={<Cy_example />} />
-        <Route path="/about"  component={About} />
+        <Route path="/BoardSetup/:isAI"  element={<BoardSetup />} />
+        <Route path="/GamePlay"  element={<Cy_example />} />
+        <Route path="/About"  element={<About />} />
       </Routes>
     </div>
   );

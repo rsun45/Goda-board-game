@@ -4,6 +4,9 @@ import { useState } from 'react';
 import p1Img from './img/p1-blue.png';
 import p2Img from './img/p2-red.png' 
 import './board.css';
+import './App.css';
+import { useLocation } from "react-router-dom";
+import { useNavigate   } from 'react-router-dom';
 // import cytoscape from "cytoscape";
 // import edgehandles from 'cytoscape-edgehandles';
 
@@ -15,6 +18,8 @@ let lastAddTN = '';
 let storeEdges = []; // ex: [['1,0', '0,0'],['0,0', '1,0'],['1,1', '1,2'],['1,2', '1,1']...]
 let addedNodeIndex = 1;
 let aiMoveCount = 1;
+let globalP1Score = 0;
+let globalP2Score = 0;
 let currentPlayer = 1; // 1-first 2-second
 let mapRowMax = 5;
 let mapColMax = 5;
@@ -172,6 +177,9 @@ function changePlayer(setPlayer1Title, setPlayer2Title) {
 }
 
 
+
+
+
 // not working, write it in useEffect() 
 // post array of all nodes and current edges to server and get next move made by algorithm
 // function requestAImove(){
@@ -188,6 +196,30 @@ function changePlayer(setPlayer1Title, setPlayer2Title) {
 
 function CyExample() {
 
+  const location = useLocation();
+  const navigate  = useNavigate();
+
+  mapRowMax = location.state.rowNum;
+  mapColMax = location.state.colNum;
+  isAI = location.state.isAI;
+
+
+  // states for players scores
+  const [p1Score, setP1Score] = useState(0);
+  const [p2Score, setP2Score] = useState(0);
+  // function to increase player score
+  const increaseP1 = (value) =>{
+    setP1Score(p1Score + value);
+  };
+  const increaseP2 = (value) =>{
+    setP2Score(p2Score + value);
+  };
+
+  
+  // states for players display Name
+  const [p1Name, setP1Name] = useState("Player 1 move");
+  const [p2Name, setP2Name] = useState("Player 2 move");
+
   // change player title using use state
   const [player1Title, setPlayer1Title] = useState('visible');
   const [player2Title, setPlayer2Title] = useState('hidden');
@@ -203,6 +235,16 @@ function CyExample() {
 
 
   useEffect(() => {
+    // reset parameters
+    lastAddSN = '';
+    lastAddTN = '';
+    storeEdges = []; 
+    addedNodeIndex = 1;
+    aiMoveCount = 1;
+    currentPlayer = 1; 
+    globalP1Score = 0;
+    globalP2Score = 0;
+
     const config = {
       container: containerRef.current,
       style: [
@@ -400,17 +442,54 @@ function CyExample() {
         let boundNodes = checkAfterAddEdge(lastAddSN, lastAddTN, storeEdges, mapRowMax, mapColMax);
         console.log(boundNodes); // nodes array for adding colored bound
         if (boundNodes.length / 4 === 1){
+          if (currentPlayer === 1) {
+            globalP1Score += 1;
+            setP1Score(globalP1Score);
+          }
+          else {
+            globalP2Score += 1;
+            setP2Score(globalP2Score);
+          }
           addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[0]), mycy.getElementById(boundNodes[1]), mycy.getElementById(boundNodes[2]), mycy.getElementById(boundNodes[3]));
           aiMoveContainer();
         }
         else if (boundNodes.length / 4 === 2){
+          if (currentPlayer === 1) {
+            globalP1Score += 2;
+            setP1Score(globalP1Score);
+          }
+          else {
+            globalP2Score += 2;
+            setP2Score(globalP2Score);
+          }
           addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[0]), mycy.getElementById(boundNodes[1]), mycy.getElementById(boundNodes[2]), mycy.getElementById(boundNodes[3]));
           addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[4]), mycy.getElementById(boundNodes[5]), mycy.getElementById(boundNodes[6]), mycy.getElementById(boundNodes[7]));
           aiMoveContainer();
         }
         else {
           changePlayer(setPlayer1Title, setPlayer2Title);
-        }       
+        }     
+        
+        // condition of all edges are drawed, game over
+        if (storeEdges.length/2 === ( mapRowMax*(mapColMax-1) + mapColMax*(mapRowMax-1) ) ){
+          if (globalP1Score > globalP2Score){
+            setP1Name("Winner!");
+            setPlayer1Title('visible');
+            setPlayer2Title('hidden');
+          }
+          else if (globalP1Score < globalP2Score){
+            setP2Name("Winner!");
+            setPlayer2Title('visible');
+            setPlayer1Title('hidden');
+          }
+          else {
+            setP1Name("Draw!");
+            setP2Name("Draw!");
+            setPlayer2Title('visible');
+            setPlayer1Title('visible');
+          }
+        }
+
         aiMoveCount++;
       }) // get AI move here
       .catch((error) => {
@@ -456,9 +535,25 @@ function CyExample() {
           let boundNodes = checkAfterAddEdge(lastAddSN, lastAddTN, storeEdges, mapRowMax, mapColMax);
           console.log(boundNodes); // nodes array for adding colored bound
           if (boundNodes.length / 4 === 1){
+            if (currentPlayer === 1) {
+              globalP1Score += 1;
+              setP1Score(globalP1Score);
+            }
+            else {
+              globalP2Score += 1;
+              setP2Score(globalP2Score);
+            }
             addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[0]), mycy.getElementById(boundNodes[1]), mycy.getElementById(boundNodes[2]), mycy.getElementById(boundNodes[3]));
           }
           else if (boundNodes.length / 4 === 2){
+            if (currentPlayer === 1) {
+              globalP1Score += 2;
+              setP1Score(globalP1Score);
+            }
+            else {
+              globalP2Score += 2;
+              setP2Score(globalP2Score);
+            }
             addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[0]), mycy.getElementById(boundNodes[1]), mycy.getElementById(boundNodes[2]), mycy.getElementById(boundNodes[3]));
             addBound(mycy, eh, 'p'+currentPlayer, mycy.getElementById(boundNodes[4]), mycy.getElementById(boundNodes[5]), mycy.getElementById(boundNodes[6]), mycy.getElementById(boundNodes[7]));
           }
@@ -477,6 +572,26 @@ function CyExample() {
             }
             else {
               changePlayer(setPlayer1Title, setPlayer2Title);
+            }
+          }
+
+          // condition of all edges are drawed, game over
+          if (storeEdges.length/2 === ( mapRowMax*(mapColMax-1) + mapColMax*(mapRowMax-1) ) ){
+            if (globalP1Score > globalP2Score){
+              setP1Name("Winner!");
+              setPlayer1Title('visible');
+              setPlayer2Title('hidden');
+            }
+            else if (globalP1Score < globalP2Score){
+              setP2Name("Winner!");
+              setPlayer2Title('visible');
+              setPlayer1Title('hidden');
+            }
+            else {
+              setP1Name("Draw!");
+              setP2Name("Draw!");
+              setPlayer2Title('visible');
+              setPlayer1Title('visible');
             }
           }
           
@@ -509,13 +624,26 @@ function CyExample() {
       <div className ="gameTitle">
         <div className ="gameTitle1" style={{visibility: player1Title}}>
           <img src={p1Img}/>
-          <h1>Player 1 move</h1>
+          <h1>{p1Name}</h1>
+        </div>
+        <div>
+          <h1>{p1Score} - {p2Score}</h1>
         </div>
         <div className ="gameTitle2" style={{visibility: player2Title}}>
           <img src={p2Img}/>
-          <h1>Player 2 move</h1>
+          <h1>{p2Name}</h1>
         </div>
       </div>
+
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: "column",
+      }}>
+        <button className="gamePlayRestartButton" onClick={() => navigate("/")}>Restart</button>
+      </ div>
+
       {/* <div ref={containerRef} style={{ height: '600px' }} id="cy"></div> */}
       <div ref={containerRef} id="cy"></div>
     </div>

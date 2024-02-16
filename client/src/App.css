@@ -36,3 +36,143 @@
     transform: rotate(360deg);
   }
 }
+
+
+.homepageStyle {
+  background-color: #4674b7;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0; 
+  text-transform: uppercase;
+  margin: 10px 0px;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px lightgray;
+  transition: ease background-color 250ms;
+  &:hover {
+    background-color: #284c93;
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.titleLeftImg {
+  padding: 20px;
+  z-index:-1;
+  transform: rotate(0deg);
+  animation-name: animLeft;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: relative;
+  animation-timing-function: cubic-bezier(.4,.2,.85,.25);
+}
+@keyframes animLeft {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(315deg);
+  }
+  
+  0%   {left:0px; top:0px;}
+  100%  {left:165px; top:0px;}
+}
+
+.titleRightImg {
+  padding: 20px;
+  z-index:-1;
+  transform: rotate(0deg);
+  animation-name: animRight;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: relative;
+  animation-timing-function: cubic-bezier(.4,.2,.85,.25);
+}
+@keyframes animRight {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(315deg);
+  }
+  
+  0%   {left:0px; top:0px;}
+  100%  {left:-165px; top:0px;}
+}
+
+
+.aboutPageButton {
+  background-color: #4674b7;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0; 
+  text-transform: uppercase;
+  margin: 10px 0px;
+  margin-top: 50px;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px lightgray;
+  transition: ease background-color 250ms;
+  &:hover {
+    background-color: #284c93;
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.setupPageButton {
+  background-color: #4674b7;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0; 
+  text-transform: uppercase;
+  margin: 10px 0px;
+  margin-top: 50px;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px lightgray;
+  transition: ease background-color 250ms;
+  &:hover {
+    background-color: #284c93;
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+
+label {
+  margin-bottom: 20px;
+}
+
+
+.gamePlayRestartButton {
+  background-color: #f59b7d;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  outline: 0;
+  border: 0; 
+  text-transform: uppercase;
+  margin: 10px 0px;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px lightgray;
+  transition: ease background-color 250ms;
+  &:hover {
+    background-color: #f4825c;
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
