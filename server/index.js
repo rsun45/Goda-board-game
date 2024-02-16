@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 const bodyParser = require('body-parser')
+app.set('port', (process.env.PORT || 8081))
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 /*
 // mongo database connection
