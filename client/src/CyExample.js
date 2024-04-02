@@ -624,18 +624,19 @@ function CyExample() {
       <div className ="gameTitle">
         <div className ="gameTitle1" style={{visibility: player1Title}}>
           <img src={p1Img}/>
-          <h1>{p1Name}</h1>
+          <h2>{p1Name}</h2>
         </div>
         <div>
           <h1>{p1Score} - {p2Score}</h1>
         </div>
         <div className ="gameTitle2" style={{visibility: player2Title}}>
           <img src={p2Img}/>
-          <h1>{p2Name}</h1>
+          <h2>{p2Name}</h2>
         </div>
       </div>
 
       <div style={{
+        height: '5%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
